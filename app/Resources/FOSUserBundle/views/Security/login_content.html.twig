@@ -1,0 +1,74 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+
+
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row featured-boxes login">
+                <div class="col-sm-6">
+                    <div class="featured-box featured-box-secundary default info-content">
+                        <div class="box-content">
+                            <h4>I'm a Returning Customer</h4>
+                            {% if error %}
+                                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+                            <form action="{{ path("fos_user_security_check") }}" method="post">
+                                {% if csrf_token %}
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                {% endif %}
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label for="username">{{ 'security.login.username'|trans }}</label>
+                                            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" class="form-control input-lg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <a class="pull-right" href="#">(Lost Password?)</a>
+                                            <label for="password">{{ 'security.login.password'|trans }}</label>
+                                            <input type="password" id="password" name="_password" required="required" autocomplete="current-password" class="form-control input-lg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+														<span class="remember-box checkbox">
+															<label for="rememberme">
+                                                                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                                                                <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+															</label>
+														</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="btn btn-primary pull-right push-bottom" data-loading-text="Loading..."/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="featured-box featured-box-secundary default info-content">
+                        <div class="box-content">
+                            <h4>Welcome back</h4>
+                            <img alt="Porto" width="500" height="245" data-sticky-width="82" data-sticky-height="40" src="{{ asset('templates/FrontEnd/img/welcome-back.jpg') }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</div>

@@ -1,0 +1,100 @@
+{% include 'back/headerAdmin.html.twig' %}
+<div class="col-md-10">
+
+        {{ form_start(form) }}
+
+        <section class="panel">
+            <header class="panel-heading">
+                <div class="panel-actions">
+                    <a href="#" class="fa fa-caret-down"></a>
+                    <a href="#" class="fa fa-times"></a>
+                </div>
+
+                <h2 class="panel-title">Ajouter Produit</h2>
+                <p class="panel-subtitle">
+                    Ajout d'un produit
+                </p>
+            </header>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Nom <span class="required">*</span></label>
+                    <div class="col-sm-9">
+                        {{ form_widget(form.title, { 'attr': {'class': 'form-control', 'placeholder': 'title'|trans } }) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Prix<span class="required">*</span></label>
+                    <div class="col-sm-9">
+
+                        {{ form_widget(form.price, { 'attr': {'class': 'form-control', 'placeholder': 'Price'|trans } }) }}
+                        {{ form_errors(form.price) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Description <span class="required">*</span></label>
+                    <div class="col-sm-9">
+                        {{ form_widget(form.description, { 'attr': {'class': 'form-control', 'placeholder': 'Description'|trans } }) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Size <span class="required">*</span></label>
+                    <div class="col-sm-9">
+                        {{ form_widget(form.size, { 'attr': {'class': 'form-control', 'placeholder': 'size'|trans } }) }}
+                        {{ form_errors(form.size) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">color <span class="required">*</span></label>
+                    <div class="col-sm-9">
+                        {{ form_widget(form.color, { 'attr': {'class': 'form-control', 'placeholder': 'color'|trans } }) }}
+                        {{ form_errors(form.color) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">categorie<span class="required">*</span></label>
+                    <div class="col-sm-9">
+                        {{ form_widget(form.category, { 'attr': {'class': 'form-control', 'placeholder': 'category'|trans } }) }}
+                        {{ form_errors(form.category) }}
+                        <label class="error" for="company"></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Stock <span class="required">*</span></label>
+                    <div class="col-sm-9">
+                        {{ form_widget(form.state, { 'attr': {'class': 'form-control', 'placeholder': 'State'|trans } }) }}
+                        {{ form_errors(form.state) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Image<span class="required">*</span></label>
+                    <div class="col-sm-9">
+                        {{ form_widget(form.image, { 'attr': {'class': 'form-control', 'placeholder': 'category'|trans } }) }}
+                        {{ form_errors(form.image) }}
+
+                    </div>
+                </div>
+            </div>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <input type="submit" value="Create" class="btn btn-primary"/>
+                        <button type="reset" class="btn btn-default">Reset</button>
+                    </div>
+                </div>
+            </footer>
+        </section>
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+
+</div>
+
+
+
+
+
+
+
+
+{% include 'back/footerAdmin.html.twig' %}

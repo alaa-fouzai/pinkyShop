@@ -1,0 +1,214 @@
+{% include 'front/header.html.twig' %}
+
+
+<script language = "javascript"
+        src = "https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+
+
+<div role="main" class="main shop">
+
+    <div class="container">
+
+        <hr class="tall">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="row featured-boxes">
+                    <div class="col-md-12">
+                        <div class="featured-box featured-box-secundary featured-box-cart">
+                            <div class="box-content">
+                                <form method="post" action="">
+                                    <table cellspacing="0" class="shop_table cart">
+                                        <thead>
+                                        <tr>
+                                            <th class="product-remove">
+                                                &nbsp;
+                                            </th>
+                                            <th class="product-thumbnail">
+                                                &nbsp;
+                                            </th>
+                                            <th class="product-name">
+                                                Product
+                                            </th>
+                                            <th class="product-price">
+                                                Price
+                                            </th>
+                                            <th class="product-quantity">
+                                                Quantity
+                                            </th>
+                                            <th class="product-subtotal">
+                                                Total
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for cart in cart %}
+                                        <tr class="cart_table_item">
+                                            <td class="product-remove">
+                                                <a title="Remove this item" id="loadstudent" class="remove" href="#" data-resource="{{ cart.id }}">
+                                                    <i class="fa fa-times"></i>
+                                                    <p id="test"></p>
+                                                </a>
+
+
+
+
+
+
+
+
+
+                                            </td>
+                                            <td class="product-thumbnail">
+                                                <a href="shop-product-sidebar.html">
+                                                    <img width="100" height="100" alt="" class="img-responsive" src="{{ asset('uploads/imagesProduit/') }}{{ cart.image }}">
+                                                </a>
+                                            </td>
+                                            <td class="product-name">
+                                                <a href="shop-product-sidebar.html">{{ cart.title }}</a>
+                                            </td>
+                                            <td class="product-price">
+                                                <span class="amount">{{ cart.price }}</span>
+                                            </td>
+                                            <td class="product-quantity">
+                                                <form enctype="multipart/form-data" method="post" class="cart">
+                                                    <div class="quantity">
+                                                        {% if cart.state >1 %}
+                                                            <input type="text" readonly="readonly" class="input-text qty text" title="Qty" value="in Stock" name="quantity" min="1" step="1">
+                                                        {% else %}
+                                                            <input type="text" readonly="readonly" class="input-text qty text" title="Qty" value="Sold Out" name="quantity" min="1" step="1">
+                                                        {% endif %}
+
+
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            <td class="product-subtotal">
+                                                <span class="amount">{{ cart.price }}</span>
+                                            </td>
+                                        </tr>
+
+                                        {% endfor %}
+
+
+
+
+                                        <tr>
+                                            <td class="actions" colspan="6">
+                                                <div class="actions-continue">
+                                                    <input type="submit" value="Update Cart" name="update_cart" class="btn btn-default">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                    <div class="col-md-25">
+                        <div class="featured-box featured-box-secundary default">
+                            <div class="box-content">
+                                <h4>Cart Totals</h4>
+                                <table cellspacing="0" class="cart-totals">
+                                    <tbody>
+                                    <tr class="cart-subtotal">
+                                        <th>
+                                            <strong>Cart Subtotal</strong>
+                                        </th>
+                                        <td>
+                                            <strong><span class="amount">${{ total }}</span></strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="shipping">
+                                        <th>
+                                            Shipping
+                                        </th>
+                                        <td>
+                                            Free Shipping<input type="hidden" value="free_shipping" id="shipping_method" name="shipping_method">
+                                        </td>
+                                    </tr>
+                                    <tr class="total">
+                                        <th>
+                                            <strong>Order Total</strong>
+                                        </th>
+                                        <td>
+
+                                            <strong><span class="amount">${{ total }}</span></strong>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row featured-boxes">
+                    <div class="col-md-11">
+                        <div class="actions-continue">
+                            <input type="submit" value="Proceed to Checkout →" name="proceed" class="btn btn-lg btn-primary">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<script language = "javascript">
+    $(document).ready(function(){
+
+
+        $('.remove').click(function(){
+            $.ajax({
+                url:        '/remouve',
+                type:       'GET',
+                dataType:   'json',
+                data: {id: $(this).attr('data-resource')},
+                    async:      true,
+
+                dataType: "text",
+                async: true,
+            success: function(data) {
+                alert(data);
+            },
+                error : function(xhr, textStatus, errorThrown) {
+                    alert('Ajax request failed.');
+                }
+        });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% include 'front/footer.html.twig' %}

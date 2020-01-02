@@ -1,0 +1,149 @@
+{% include 'front/header.html.twig' %}
+<div role="main" class="main shop">
+
+    <div class="container">
+
+        <hr class="tall">
+
+        <div class="row">
+            <div class="col-md-6">
+                <img alt="" class="img-responsive" src="{{ asset('uploads/imagesProduit/') }}{{ product.image }}">
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="summary entry-summary">
+
+                    <h1 class="shorter"><strong>{{ product.title }}</strong></h1>
+
+
+
+
+                    <p class="price">
+                        <span class="amount">${{ product.price }}</span>
+                    </p>
+
+                    <p class="taller">{{ product.description }}</p>
+
+                    <form enctype="multipart/form-data" method="post" class="cart">
+                        <div class="quantity">
+                            <input type="button" class="minus" value="-">
+                            <input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
+                            <input type="button" class="plus" value="+">
+                        </div>
+
+
+                    </form>
+                    <button id ="loadstudent" class="btn btn-primary btn-icon" >Add to cart</button>
+                    <script language = "javascript"
+                            src = "https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+                    <script language = "javascript">
+                        $(document).ready(function(){
+                            $("#loadstudent").on("click", function(event){
+                                $.ajax({
+                                    url:        '/add',
+                                    type:       'GET',
+                                    dataType:   'json',
+                                    data: { field1: {{ product.id }}, field2 : "hello2"} ,
+                                    async:      true,
+
+                                    success: function(data, status) {
+                                        $("#loadstudent").attr("disabled", true);
+                                        alert(data);
+                                    },
+                                    error : function(xhr, textStatus, errorThrown) {
+                                        alert('Ajax request failed.');
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
+                    <div class="product_meta">
+                        <span class="posted_in">Categories: {{ product.category }}</span>
+                    </div>
+                    <div class="product_meta">
+                    {% if product.updatedat %}{{ product.updatedat|date('Y-m-d H:i:s') }}{% endif %}
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabs tabs-product">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#productDescription" data-toggle="tab">Aditional Information</a></li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="productDescription">
+                            <div class="tab-pane" id="productInfo">
+                                <table class="table table-striped push-top">
+                                    <tbody>
+                                    <tr>
+                                        <th>
+                                            Size:
+                                        </th>
+                                        <td>
+                                            {{ product.size }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Colors
+                                        </th>
+                                        <td>
+                                            {{ product.color }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            State
+                                        </th>
+                                        <td>
+                                            {% if product.state >1 %}
+                                                en Stock
+                                            {% else %}
+                                                Sold-out!
+                                            {% endif %}
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="tall" />
+
+
+    </div>
+
+
+    <ul>
+        <li>
+            <a href="{{ path('product_index') }}">Back to the list</a>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+        <li>
+            <a href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a>
+        </li>
+
+        </li>
+        {% endif %}
+    </ul>
+
+{% include 'front/footer.html.twig' %}

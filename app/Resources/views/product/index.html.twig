@@ -1,0 +1,87 @@
+{% include 'back/headerAdmin.html.twig' %}
+
+
+
+
+
+
+
+
+
+
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+            <a href="#" class="fa fa-times"></a>
+        </div>
+
+        <h2 class="panel-title">Products list</h2>
+    </header>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="mb-md">
+                    <a href="{{ path('product_new') }}">Create a new product</a>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Title</th>
+                <th>State</th>
+                <th>Created_at</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Color</th>
+                <th>Size</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+
+            <tr class="gradeX">
+                <td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
+
+
+
+                <td><img alt="" class="img-responsive" height="42" width="42" src="{{ asset('uploads/imagesProduit/') }}{{ product.image }}"></td>
+
+
+                <td>{{ product.title }}</td>
+
+                <td>{% if product.state >1 %}
+                        en Stock {{ product.state }} left
+                    {% else %}
+                        Sold-out!
+                    {% endif %}</td>
+                <td>{% if product.createdat %}{{ product.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.color }}</td>
+                <td>{{ product.size }}</td>
+                <td>{{ product.category }}</td>
+                <td class="actions">
+                    <a href="{{ path('product_show', { 'id': product.id }) }}" class="on-default save-row"><i class="fa fa-eye"></i></a>
+                    <a href="{{ path('product_edit', { 'id': product.id }) }}" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                    <a href="{{ path('product_delete', { 'id': product.id }) }}" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                </td>
+            </tr>
+
+
+
+
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+{% include 'back/footerAdmin.html.twig' %}

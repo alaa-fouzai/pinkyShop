@@ -1,0 +1,97 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+
+
+
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row featured-boxes login">
+
+                <div class="col-sm-6">
+                    <div class="featured-box featured-box-secundary default info-content">
+                        <div class="box-content">
+                            <h4>Register An Account</h4>
+                            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+
+                            <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label>E-mail Address</label>
+                                            {{ form_widget(form.email, { 'attr': {'class': 'form-control input-lg', 'placeholder': 'form.email'|trans } }) }}
+                                            {{ form_errors(form.email) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <label>Password</label>
+                                            {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control input-lg' , 'placeholder': 'form.password'|trans } }) }}
+                                            {{ form_errors(form.plainPassword.first) }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Re-enter Password</label>
+                                            {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control input-lg', 'placeholder': 'form.password_confirmation'|trans } }) }}
+                                            {{ form_errors(form.plainPassword.second) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Username</label>
+                                        {{ form_widget(form.username, { 'attr': {'class': 'form-control input-lg', 'placeholder': 'form.username'|trans } }) }}
+                                        {{ form_errors(form.username) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Adresse</label>
+                                        {{ form_widget(form.Adresse, { 'attr': {'class': 'form-control input-lg', 'placeholder': 'Adresse'|trans } }) }}
+                                        {{ form_errors(form.Adresse) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Telephone</label>
+                                        {{ form_widget(form.telephone, { 'attr': {'class': 'form-control input-lg', 'placeholder': 'Telephone'|trans } }) }}
+                                        {{ form_errors(form.telephone) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                                            <br>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-primary pull-right push-bottom" data-loading-text="Loading..."/>
+                                    </div>
+                                </div>
+                            {{ form_widget(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="featured-box featured-box-secundary default info-content">
+                        <div class="box-content">
+                            <h4>Welcome to the family</h4>
+                            <img alt="Porto" width="500" height="245" data-sticky-width="82" data-sticky-height="40" src="{{ asset('templates/FrontEnd/img/welcome.jpg') }}">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</div>

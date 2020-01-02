@@ -1,0 +1,4 @@
+services:
+#    alaa.example:
+#        class: AlaaBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

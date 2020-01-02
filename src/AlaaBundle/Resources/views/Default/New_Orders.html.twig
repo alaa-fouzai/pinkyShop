@@ -1,0 +1,85 @@
+{% include 'back/headerAdmin.html.twig' %}
+
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+            <a href="#" class="fa fa-times"></a>
+        </div>
+
+        <h2 class="panel-title">Orders List</h2>
+    </header>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="mb-md">
+                    NEW Orders List
+                </div>
+            </div>
+        </div>
+            <div class="table table-bordered table-striped mb-none">
+                <table class="table table-hover mb-none">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>image</th>
+                        <th>username</th>
+                        <th>title</th>
+                        <th>price</th>
+                        <th>date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                            <tr id="{{ order.id }}" >
+                                <td>{{ order.id }}</td>
+                                <td><img alt="" class="img-responsive" height="42" width="42" src="{{ asset('uploads/imagesProduit/') }}{{ order.image }}"></td>
+                                <th>{{ order.username }}</th>
+                                <th>{{ order.title }}</th>
+                                <th>{{ order.price }}</th>
+                                <td>{% if order.orderDate %}{{ order.orderDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                <td class="actions-hover actions-fade">
+                                    <a href="#" class="promote" data-resource="{{ order.id }}" data-action="done"><i class="fa  fa-check-square-o"></i></a>
+                                    <a href="#" class="delete-row"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script language = "javascript"
+        src = "https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script language = "javascript">
+    $(document).ready(function(){
+
+
+        $('.promote').click(function(){
+            $.ajax({
+                url:        '/Admin/new_orders',
+                type:       'GET',
+
+                data: {id: $(this).attr('data-resource'),action: $(this).attr('data-action')},
+                async:      true,
+                dataType: "text",
+                async: true,
+                success: function(data) {
+                    alert("order "+data+" is set as Done");
+                    $('#'+data).hide();
+                },
+                error : function(xhr, textStatus, errorThrown) {
+                    alert('Ajax request failed.');
+                }
+            });
+        });
+    });
+</script>
+
+
+{% include 'back/footerAdmin.html.twig' %}

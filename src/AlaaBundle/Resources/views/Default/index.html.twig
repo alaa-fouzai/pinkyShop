@@ -1,0 +1,159 @@
+{% include 'front/header.html.twig' %}
+
+
+
+
+
+
+
+
+
+<div role="main" class="main shop">
+
+
+	<div class="container">
+		<div class="row" id="team">
+			<div class="col-md-12">
+
+				<div class="row">
+
+					<ul class="team-list">
+                        {% for product in products|slice(0,4) %}
+						<li class="col-md-3">
+							<div class="team-item thumbnail">
+								<a href="{{ path('product_show', { 'id': product.id }) }}" class="thumb-info team">
+									<img alt="" class="img-responsive" style="width:272px;height:272px;" 	src="{{ asset('uploads/imagesProduit/') }}{{ product.image }}">
+									<span class="thumb-info-title">
+													<span class="thumb-info-inner">{{ product.title }}</span>
+													<span class="thumb-info-type">${{ product.price+7 }}</span>
+												</span>
+								</a>
+								<span class="thumb-info-caption">
+												<p>{{ product.description }}</p>
+												<span class="thumb-info-social-icons">
+													<a data-tooltip data-placement="bottom" target="_blank" href="http://www.facebook.com" data-original-title="Facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
+													<a data-tooltip data-placement="bottom" href="http://www.twitter.com" data-original-title="Twitter"><i class="fa fa-twitter"></i><span>Twitter</span></a>
+													<a data-tooltip data-placement="bottom" href="http://www.linkedin.com" data-original-title="Linkedin"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
+												</span>
+											</span>
+							</div>
+						</li>
+                        {% endfor %}
+					</ul>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<section class="featured highlight footer">
+		<div class="container">
+			<div class="row center counters">
+				<div class="col-md-3">
+					<strong data-to="7000">High</strong>
+					<label>Quality</label>
+				</div>
+				<div class="col-md-3">
+					<strong data-to="15">2</strong>
+					<label>Years in Business</label>
+				</div>
+				<div class="col-md-3">
+					<strong data-to="352">Fast</strong>
+					<label>Delivery</label>
+				</div>
+				<div class="col-md-3">
+					<strong data-to="159">Free</strong>
+					<label>Shipping</label>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container">
+
+        <hr class="tall">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="shorter"><strong>Shop</strong></h1>
+                <p>Showing Items.</p>
+            </div>
+        </div>
+        <div class="row">
+
+            <ul class="products product-thumb-info-list" data-plugin-masonry>
+                {% for product in products|slice(4) %}
+                <li class="col-md-3 col-sm-6 col-xs-12 product">
+                    <a href="shop-product-sidebar.html">
+						{% if product.state >1 %}
+								<span class="onsale">Sale</span>
+                            {% else %}
+
+                            {% endif %}
+                        </span>
+                    </a>
+                    <span class="product-thumb-info">
+									<a href="{{ path('product_show', { 'id': product.id }) }}"  class="add-to-cart-product">
+										<span><i class="fa fa-shopping-cart"></i> Add to Cart</span>
+									</a>
+									<a href="{{ path('product_show', { 'id': product.id }) }}">
+										<span class="product-thumb-info-image">
+											<span class="product-thumb-info-act">
+												<span class="product-thumb-info-act-left"><em>View</em></span>
+												<span class="product-thumb-info-act-right"><em><i class="fa fa-plus"></i> Details</em></span>
+											</span>
+											<img alt="" class="img-responsive" style="width:272px;height:272px;" 	src="{{ asset('uploads/imagesProduit/') }}{{ product.image }}">
+										</span>
+									</a>
+									<span class="product-thumb-info-content">
+										<a href="{{ path('product_show', { 'id': product.id }) }}">
+											<h4>{{ product.title }}</h4>
+											<span class="price">
+												<del><span class="amount">${{ product.price+7 }}</span></del>
+												<ins><span class="amount">${{ product.price }}</span></ins>
+											</span>
+										</a>
+									</span>
+								</span>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+
+{% include 'front/footer.html.twig' %}

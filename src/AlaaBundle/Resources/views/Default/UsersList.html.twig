@@ -1,0 +1,127 @@
+{% include 'back/headerAdmin.html.twig' %}
+
+
+
+
+
+
+
+
+
+
+<section class="panel">
+	<header class="panel-heading">
+		<div class="panel-actions">
+			<a href="#" class="fa fa-caret-down"></a>
+			<a href="#" class="fa fa-times"></a>
+		</div>
+
+		<h2 class="panel-title">Users list</h2>
+	</header>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="mb-md">
+					Users List
+				</div>
+			</div>
+		</div>
+
+		<table class="table table-bordered table-striped mb-none" id="datatable-editable">
+			<thead>
+			<tr>
+				<th>ID</th>
+				<th>Username</th>
+				<th>E mail</th>
+				<th>State</th>
+				<th>Last login</th>
+				<th>Role</th>
+				<th>Telephone</th>
+				<th>Adresse</th>
+				<th>Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+            {% for user in users %}
+
+				<tr class="gradeX">
+					<td>{{ user.id }}</td>
+
+
+
+					<td>{{ user.Username }}</td>
+
+
+					<td>{{ user.email }}</td>
+
+					<td>{% if user.enabled  %}
+							<i class="fa fa-check"></i> Active
+                        {% else %}
+							<i class="fa fa-times"></i> banned
+                            {{ user.enabled }}
+                        {% endif %}</td>
+					<td>{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
+					<td>
+                        {% for item in user.Roles %}
+
+                            {{ item }}
+                        {% endfor %}
+
+
+
+					</td>
+					<td>{{ user.telephone }}</td>
+					<td>{{ user.adresse }}</td>
+					<td class="actions">
+						<a id="promote"class="promote" href="#" class="on-default save-row" data-resource="{{ user.id }}" data-action="promote"><i class="fa fa-angle-double-up"></i></a>
+						<a class="promote" href="#" class="on-default save-row" data-resource="{{ user.id }}" data-action="demote"><i class="fa fa-angle-double-down"></i></a>
+
+                        {% if user.enabled  %}
+							<a class="promote" href="#" class="on-default save-row" data-resource="{{ user.id }}" data-action="disable"><i class="fa  fa-lock"></i></a>
+                        {% else %}
+							<a class="promote" href="#" class="on-default save-row" data-resource="{{ user.id }}" data-action="enable"><i class="fa  fa-unlock"></i></a>
+
+                        {% endif %}
+
+					</td>
+				</tr>
+
+
+
+
+
+            {% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
+<script language = "javascript"
+		src = "https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script language = "javascript">
+    $(document).ready(function(){
+
+
+        $('.promote').click(function(){
+            $.ajax({
+                url:        '/users',
+                type:       'GET',
+                dataType:   'json',
+                data: {id: $(this).attr('data-resource'),action: $(this).attr('data-action')},
+                async:      true,
+
+                dataType: "text",
+                async: true,
+                success: function(data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                error : function(xhr, textStatus, errorThrown) {
+                    alert('Ajax request failed.');
+                }
+            });
+        });
+    });
+</script>
+
+{% include 'back/footerAdmin.html.twig' %}
