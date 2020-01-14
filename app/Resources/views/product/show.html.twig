@@ -20,7 +20,11 @@
 
 
                     <p class="price">
-                        <span class="amount">${{ product.price }}</span>
+                        {% if product.promotion >1 %}
+                            <del><span class="amount"><font size="5">${{ product.price }}</font></span></del>
+                            <br><span> New Price :</span>
+                        {% endif %}
+                        <span class="amount"><font color="red">${{ product.price-(product.price*product.promotion/100) }}</font></span>
                     </p>
 
                     <p class="taller">{{ product.description }}</p>

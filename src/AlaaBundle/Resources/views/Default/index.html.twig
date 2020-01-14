@@ -24,8 +24,8 @@
 								<a href="{{ path('product_show', { 'id': product.id }) }}" class="thumb-info team">
 									<img alt="" class="img-responsive" style="width:272px;height:272px;" 	src="{{ asset('uploads/imagesProduit/') }}{{ product.image }}">
 									<span class="thumb-info-title">
-													<span class="thumb-info-inner">{{ product.title }}</span>
-													<span class="thumb-info-type">${{ product.price+7 }}</span>
+										<del><span class="thumb-info-inner">${{ product.price }}</span></del>
+													<span class="thumb-info-type">${{ product.price-(product.price*product.promotion/100) }}</span>
 												</span>
 								</a>
 								<span class="thumb-info-caption">
@@ -109,7 +109,7 @@
                 {% for product in products|slice(4) %}
                 <li class="col-md-3 col-sm-6 col-xs-12 product">
                     <a href="shop-product-sidebar.html">
-						{% if product.state >1 %}
+						{% if product.promotion >1 %}
 								<span class="onsale">Sale</span>
                             {% else %}
 
@@ -133,8 +133,10 @@
 										<a href="{{ path('product_show', { 'id': product.id }) }}">
 											<h4>{{ product.title }}</h4>
 											<span class="price">
-												<del><span class="amount">${{ product.price+7 }}</span></del>
-												<ins><span class="amount">${{ product.price }}</span></ins>
+												{% if product.promotion >1 %}
+												<del><span class="amount">${{ product.price }}</span></del>
+                                                {% endif %}
+												<ins><span class="amount">${{ product.price-(product.price*product.promotion/100) }}</span></ins>
 											</span>
 										</a>
 									</span>
