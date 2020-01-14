@@ -324,8 +324,9 @@ class DefaultController extends Controller
                 $action = $request->query->get("action");
                 $remise = $request->query->get("remise");
                 $categorie = $request->query->get("categorie");
+                $signal = $request->query->get("signal");
 
-                if ($action=="all")
+                if ($action=="all" )
                 {
                     $em = $this->getDoctrine()->getManager();
 
@@ -340,7 +341,7 @@ class DefaultController extends Controller
 
                     return new Response("Sucess");
                 }
-                if ($action=="categorie")
+                if ($action=="categorie" AND $signal=="not done")
                 {
                     /*$em = $this->getDoctrine()->getManager();
 
@@ -359,13 +360,68 @@ class DefaultController extends Controller
                         'SELECT DISTINCT(p.category) FROM khaledBundle:Product p'
                     );
                     $orders = $query->getResult();
-                    $html="<table class=\"table table-hover mb-none\">";
+                    $html="";
                     foreach ($orders as $c)
                     {
-                        $html.="<tr><td>".$c[1]."</td><td><button id=\"btnremise\" class=\"btn btn-primary\" value=\"$c[1]\" type=\"submit\" data-categorie='".$c[1]."'>Apply</button></td></tr>";
+                        $html.="<input type=\"checkbox\" name=\"sport\" value=".$c[1].">".$c[1]."<br>";
                     }
-                    $html.="</table>";
+
                     return new Response($html);
+                }
+                if ($action=="categorie" AND $signal=="done")
+                {  //var_dump($categorie);
+                    //die();
+
+                    foreach ($categorie as $c)
+                    {
+                        $em = $this->getDoctrine()->getManager();
+
+                        $products = $em->getRepository('khaledBundle:Product')->findBy(array('category' => $c));
+                        foreach ($products as $produit)
+                        {
+                            $produit->setPromotion($remise);
+                            $em->persist($produit);
+                            $em->flush();
+
+                        }
+                    }
+                    return new Response("success");
+                }
+
+
+                if ($action=="produit" AND $signal=="not done")
+                {
+                    $em = $this->getDoctrine()->getManager();
+                    $query = $em->createQuery(
+                        'SELECT DISTINCT p.id,p.title FROM khaledBundle:Product p WHERE p.state > 1'
+                    );
+                    $orders = $query->getResult();
+                    $html="";
+                    foreach ($orders as $c)
+                    {
+                        $html.="<input type=\"checkbox\" name=\"sport\" value=".$c["id"].">".$c["title"]."<br>";
+                    }
+
+                    return new Response($html);
+                }
+                if ($action=="produit" AND $signal=="done")
+                {  //var_dump($categorie);
+                    //die();
+
+                    foreach ($categorie as $c)
+                    {
+                        $em = $this->getDoctrine()->getManager();
+
+                        $products = $em->getRepository('khaledBundle:Product')->findBy(array('id' => $c));
+                        foreach ($products as $produit)
+                        {
+                            $produit->setPromotion($remise);
+                            $em->persist($produit);
+                            $em->flush();
+
+                        }
+                    }
+                    return new Response("Success");
                 }
                 if ( $categorie!="")
                 {

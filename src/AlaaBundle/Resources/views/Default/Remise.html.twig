@@ -32,17 +32,9 @@
                     <label class="error" for="company"></label>
                 </div>
             </div>
-            <div class="form-group" id="result">
+            <div class="form-group" id="new">
 
-                <table>
-                    {% for order in orders %}
-                        <tr  >
-                            <td>{{ order[1] }}</td>
-                            <td><a href="#" class="promote" class="btn btn-primary" type="submit" data-categorie="{{ order[1] }}">Submit</a></td>
-                        </tr>
-                    {% endfor %}
 
-                </table>
 
             </div>
         </div>
@@ -80,15 +72,20 @@
 
 
         $('#btnremise').click(function(){
+            var favorite = [];
+            $.each($("input[name='sport']:checked"), function(){
+                favorite.push($(this).val());
+            });
+            alert("My favourite sports are: " + favorite.join(","));
             $.ajax({
                 url:        '/Admin/Remise',
                 type:       'GET',
 
-                data: {action: $('#company').val(),remise: $('#remise').val(),categorie :$(this).attr('data-categorie')},
+                data: {action: $('#company').val() ,remise: $('#remise').val(),categorie :favorite,signal :"done",},
                 async:      true,
                 dataType: "text",
                 success: function(data) {
-                    $('#result').html(data);
+                    alert("data"  +data);
 
                 },
                 error : function(xhr, textStatus, errorThrown) {
@@ -96,33 +93,57 @@
                 }
             });
         });
-        $('.promote').click(function(){
-            $.ajax({
-                url:        '/Admin/Remise',
-                type:       'GET',
 
-                data: {id: $(this).attr('data-categorie'),action: $(this).attr('data-action')},
-                async:      true,
-                dataType: "text",
-                success: function(data) {
-                    alert("order "+data+" is set as Done");
-                    $('#'+data).hide();
-                },
-                error : function(xhr, textStatus, errorThrown) {
-                    alert('Ajax request failed.');
-                }
-            });
+        $('select').on('change', function() {
+            if(this.value=="all")
+            {
+
+                $("#new").empty();
+
+
+            }else if(this.value=="categorie")
+            {
+
+                $.ajax({
+                    url:        '/Admin/Remise',
+                    type:       'GET',
+
+                    data: {id: $(this).attr('data-categorie'),remise: $('#remise').val(),action: $('#company').val(),signal :"not done"},
+                    async:      true,
+                    dataType: "text",
+                    success: function(data) {
+                        $("#new").empty();
+                        $( "#new" ).append( data );
+                    },
+                    error : function(xhr, textStatus, errorThrown) {
+                        alert('Ajax request failed.');
+                    }
+                });
+
+
+            }else if(this.value=="produit")
+            {
+                $.ajax({
+                    url:        '/Admin/Remise',
+                    type:       'GET',
+
+                    data: {id: $(this).attr('data-categorie'),remise: $('#remise').val(),action: $('#company').val(),signal :"not done"},
+                    async:      true,
+                    dataType: "text",
+                    success: function(data) {
+                        $("#new").empty();
+                        $( "#new" ).append( data );
+                    },
+                    error : function(xhr, textStatus, errorThrown) {
+                        alert(data);
+                    }
+                });
+
+            }
+            else{alert('some kind of error');}
         });
     });
 
-
-    function Show_Value(c)
-    {
-
-        alert(c);
-
-
-    }
 </script>
 
 
