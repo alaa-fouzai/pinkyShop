@@ -71,7 +71,7 @@ class DefaultController extends Controller
         //SELECT * FROM fos_user f, product p, cart c WHERE f.id =2 AND p.id =c.IdProduct AND f.id=c.idUser
         //SELECT p.id,p.image,p.price,p.state,p.title FROM fos_user f, product p, cart c WHERE f.id =2 AND p.id =c.IdProduct AND f.id=c.idUser
         $query = $em->createQuery(
-                    'SELECT c.id,p.price,p.image,p.title,p.state,c.delivrer FROM AppBundle:User f, khaledBundle:Product p, AlaaBundle:Cart c WHERE f.id =:idUser AND p.id =c.idProduct AND f.id=c.idUser'
+                    'SELECT c.id,p.price,p.image,p.title,p.state,p.promotion,c.delivrer FROM AppBundle:User f, khaledBundle:Product p, AlaaBundle:Cart c WHERE f.id =:idUser AND p.id =c.idProduct AND f.id=c.idUser'
         )->setParameter('idUser', $user->getid());
         $produit = $query->getResult();
         //$produit=$em->getRepository('khaledBundle:Product')->findBy(['id' => $cart->getidProduct()]);
@@ -80,7 +80,10 @@ class DefaultController extends Controller
         $total=0;
         foreach ( $produit as $p)
         {
-            $total=$total+$p['price'];
+            if ($p['promotion']>0)
+            $total=$total+($p['price']-(($p['price']*$p['promotion'])/100));
+            else
+                $total=$total+($p['price']);
 
         }
             return $this->render('AlaaBundle:Default:cart.html.twig', array(

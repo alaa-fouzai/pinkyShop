@@ -35,6 +35,12 @@
                                             <th class="product-price">
                                                 Price
                                             </th>
+                                            <th class="product-price">
+                                                Promotion
+                                            </th>
+                                            <th class="product-quantity">
+                                                New Price
+                                            </th>
                                             <th class="product-quantity">
                                                 Quantity
                                             </th>
@@ -70,7 +76,13 @@
                                                 <a href="shop-product-sidebar.html">{{ cart.title }}</a>
                                             </td>
                                             <td class="product-price">
-                                                <span class="amount">{{ cart.price }}</span>
+                                                <span class="amount">${{ cart.price }}</span>
+                                            </td>
+                                            <td class="product-price">
+                                                <span class="amount">{{ cart.promotion }}%</span>
+                                            </td>
+                                            <td class="product-price">
+                                                <span class="amount">${{ cart.price-(cart.price*cart.promotion/100) }}</span>
                                             </td>
                                             <td class="product-quantity">
                                                 <form enctype="multipart/form-data" method="post" class="cart">
@@ -86,7 +98,7 @@
                                                 </form>
                                             </td>
                                             <td class="product-subtotal">
-                                                <span class="amount">{{ cart.price }}</span>
+                                                <span class="amount"><font color="red">${{ cart.price-(cart.price*cart.promotion/100) }}</font></span>
                                             </td>
                                         </tr>
 
@@ -96,7 +108,7 @@
 
 
                                         <tr>
-                                            <td class="actions" colspan="6">
+                                            <td class="actions" colspan="8">
                                                 <div class="actions-continue">
                                                     <input type="submit" value="Update Cart" name="update_cart" class="btn btn-default">
                                                 </div>
