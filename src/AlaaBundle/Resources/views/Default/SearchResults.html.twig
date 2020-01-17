@@ -1,0 +1,76 @@
+{% include 'front/header.html.twig' %}
+
+<style>td>img {
+		margin: 0 auto;
+	}
+
+
+	 .center {
+		 text-align: center;
+
+	 }
+
+
+
+
+
+</style>
+
+
+
+<div role="main" class="main shop">
+
+    <div class="container">
+
+        <hr class="tall">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="shorter"><strong>Search For :{{ for }}</strong></h1>
+            </div>
+        </div>
+
+        <div class="row">
+
+			<table class="table table-bordered table-striped mb-none" id="fixedheight">
+				<thead>
+				<tr>
+					<th>image</th>
+					<th>Description</th>
+					<th>Price</th>
+				</tr>
+				</thead>
+				<tbody>
+                {% for product in orders %}
+
+				<tr >
+					<td class="col-md-1 align-middle"><a href="{{ path('product_show', { 'id': product.id }) }}"><img alt=""  class="" height="250" width="250" src="{{ asset('uploads/imagesProduit/') }}{{ product.image }}"></a></td>
+					<td><a href="{{ path('product_show', { 'id': product.id }) }}"><h4>{{ product.title }}<br><small class="text-muted">{{ product.description }}</small></h4></a>
+					</td>
+
+
+					<td class="center">
+                        {% if product.promotion >1 %}
+							<br><br><p style="color:black;font-size:150%;"><del>${{ product.price }}</del></p><br><p style="color:red;font-size:150%;">Promotion :</p><p class="price" style="color:red;font-size:200%;">${{ product.price-(product.price*product.promotion/100) }}<br></p>
+                        {% else %}
+							<p style="color:black;font-size:150%;">Price :<p style="color:green;font-size:200%;">{{ product.price }}</p></p>
+                        {% endif %}
+
+					</td>
+
+				</tr>
+                {% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+{% include 'front/footer.html.twig' %}

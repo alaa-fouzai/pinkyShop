@@ -1,0 +1,110 @@
+<div class="input-group" id="result">
+{{ form_start(form, { 'attr': {'class': '' ,'action' :  path( 'search' )  } }) }}
+    {{ form_widget(form.searchbar, { 'attr': {'class': 'form-control search'} }) }}
+    {{ form_widget(form.search, { 'attr': {'class': 'btn btn-default'} }) }}
+
+{{ form_rest(form) }}
+{{ form_end(form) }}
+
+</div>
+
+
+<script language = "javascript"
+        src = "https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script>
+$("#form_searchbar").keyup(
+        function(){
+        var serie=$('#form_searchbar').val();
+        var DATA =  {'libelle' : serie};
+        $.ajax({
+        type: "POST",
+        url: "/searchJquery",
+        data:DATA,
+        success: function (data) {
+
+            $.each(data,function(k,el) {
+                $('#form_searchbar').autocomplete({
+                    source:el.title,
+                    appendTo: $("#result")
+                });
+                var appended = $('ul.ui-autocomplete').parent().get(0);
+                console.log('Autocomplete menu appended to: ' + appended.nodeName);
+
+
+                //alert(el.title);
+
+
+            });
+
+
+
+        },
+        error:function ()
+        {
+        console.log("error "+DATA);
+            alert(errorThrown);
+        }
+        });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+<!--
+<script language = "javascript">
+    $(document).ready(function(){
+        $("#form_searchbar").on('input propertychange paste', function(event){
+
+            $.ajax({
+                url:        '/searchJquery',
+                type:       'POST',
+                data: {id: form_searchbar.val(),action: $(this).attr('data-action')},
+                async:      true,
+                dataType:   "text",
+
+                success: function(data, status) {
+                    alert(data);
+                },
+                error : function(xhr, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        });
+    });
+</script>
+--!>

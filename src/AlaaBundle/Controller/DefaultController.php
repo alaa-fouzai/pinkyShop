@@ -6,9 +6,14 @@ use AlaaBundle\Entity\Cart;
 use khaledBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
@@ -448,6 +453,65 @@ class DefaultController extends Controller
     }
 
 
+
+    public function searchBarAction()
+    {
+        $form=$this->createFormBuilder(null)
+            ->add('searchbar',TextType::class)
+            ->add('search',SubmitType::class)
+            ->getForm();
+        return $this->render('AlaaBundle:Default:Search.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
+    }
+
+
+
+    /**
+     * @Route("/searchJquery",name="searchJquery")
+     */
+    public function searchJqueryAction(Request $request)
+    {
+
+        if ($request->isXmlHttpRequest() ) {
+            $em = $this->getDoctrine()->getManager();
+            $serializer = new Serializer(array(new ObjectNormalizer()));
+            /*$produit=$em->getRepository('khaledBundle:Product')
+                ->findBy(array('title'=>$request->get('libelle')));
+            $produit=$em->getRepository('khaledBundle:Product')->findBy(['title' => $request->get('libelle')]);*/
+
+            /*$query = $em->createQuery(
+                'SELECT p.title FROM  khaledBundle:Product p WHERE p.title '
+            );*/
+            $query = $em->createQuery(
+                'SELECT p.title FROM  khaledBundle:Product p WHERE p.title like :title'
+            )->setParameter('title',"%hand%");
+            $orders = $query->getResult();
+
+            $data = $serializer->normalize($orders);
+            return new JsonResponse($data);
+
+        }
+        return new JsonResponse("err");
+
+    }
+    /**
+     * @Route("/search",name="search")
+     */
+    public function searchAction(Request $request)
+    {
+        $search=$request->request->get('form')['searchbar'];
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT p FROM  khaledBundle:Product p WHERE p.title like :title'
+        )->setParameter('title','%'.$search.'%');
+        $orders = $query->getResult();
+
+        return $this->render('AlaaBundle:Default:SearchResults.html.twig', array(
+            'orders' => $orders,'for'=>$search
+        ));
+    }
 
 
 
