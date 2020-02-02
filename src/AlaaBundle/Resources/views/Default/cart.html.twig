@@ -156,7 +156,9 @@
                 <div class="row featured-boxes">
                     <div class="col-md-11">
                         <div class="actions-continue">
-                            <input type="submit" value="Proceed to Checkout →" name="proceed" class="btn btn-lg btn-primary">
+                            <a href="{{ path('buy') }}">
+                                <input type="button"  value="Proceed to Checkout →" id="check" name="proceed" class="btn btn-lg btn-primary">
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -193,25 +195,29 @@
                 }
         });
         });
+        $( ".check" ).dialog({
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+
+                    // Uncommenting the following line would hide the text,
+                    // resulting in the label being used as a tooltip
+                    //showText: false
+                }
+            ]
+        });
+
+
+
+
+
+
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 {% include 'front/footer.html.twig' %}

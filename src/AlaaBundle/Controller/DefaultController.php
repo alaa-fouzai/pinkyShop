@@ -3,6 +3,7 @@
 namespace AlaaBundle\Controller;
 
 use AlaaBundle\Entity\Cart;
+use AlaaBundle\Entity\Orders;
 use khaledBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -277,7 +278,7 @@ class DefaultController extends Controller
                     $em = $this->getDoctrine()->getManager();
 
                     $order = $em->getRepository('AlaaBundle:Orders')->find($id);
-                    //$order->setdeliverd(true);
+                    $order->setdeliverd(true);
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($order);
                     $em->flush();
@@ -510,6 +511,47 @@ class DefaultController extends Controller
 
         return $this->render('AlaaBundle:Default:SearchResults.html.twig', array(
             'orders' => $orders,'for'=>$search
+        ));
+    }
+    /**
+     * @Route("/buy",name="buy")
+     */
+    public function buyAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if (! $user->getId())
+        {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        $query = $em->createQuery(
+            'SELECT p.id,p.price,p.image,p.title,p.state,p.promotion,c.delivrer FROM AppBundle:User f, khaledBundle:Product p, AlaaBundle:Cart c WHERE f.id =:idUser AND p.id =c.idProduct AND f.id=c.idUser'
+        )->setParameter('idUser', $user->getid());
+        $produit = $query->getResult();
+        //$produit=$em->getRepository('khaledBundle:Product')->findBy(['id' => $cart->getidProduct()]);
+        //var_dump($produit);
+        $p=new Product();
+        $o=new Orders();
+        $total=0;
+        foreach ( $produit as $p)
+        {
+            $o=new Orders();
+            $o->setIdUser($user->getId());
+            $o->setIdProduct($p['id']);
+            $o->setOrderDate(new \DateTime("now"));
+            $o->setDeliverd(false);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($o);
+            $em->flush();
+            var_dump($o);
+            if ($p['promotion']>0)
+                $total=$total+($p['price']-(($p['price']*$p['promotion'])/100));
+            else
+                $total=$total+($p['price']);
+
+        }
+        return $this->render('AlaaBundle:Default:OrderPlaced.html.twig', array(
+            'cart' => $produit,'total'=>$total
         ));
     }
 
